@@ -1,5 +1,5 @@
 test:
-  image: node:5.8.0
+  image: node:6.2.0
   volumes:
   - ./:/app
   - node_modules:/app/node_modules
