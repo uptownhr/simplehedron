@@ -29,7 +29,7 @@ var settings = {
           loaders: ["style", "css?sourceMap", "sass?sourceMap"]
         },
         { test: /\.css$/, loader: "style!css" },
-        { test: /\.png$/, loader: 'url-loader?limit=10240' },
+        { test: /\.(png|svg)$/, loader: 'url-loader?limit=10240' },
         { test: /\.html$/, loader: 'html' }
       ]
     },
