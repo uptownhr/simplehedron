@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon --ignore webpack/ index.js",
     "dev-docker": "npm install && npm run dev",
     "test": "PORT=9999 TEST=true istanbul cover _mocha",
     "posttest": "cat ./coverage/lcov.info | coveralls",

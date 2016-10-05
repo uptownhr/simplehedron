@@ -11,22 +11,19 @@ app:
   environment:
   - MONGODB=mongodb://mongo:27017/hackathon
   - REDIS=redis://redis:6379
-  ports:
-  - 3000:3000
-test:
-  image: node:5.8.0
-  volumes_from:
-  - app
-  working_dir: /app
-  command: npm run test-watch
-  links:
-  - app
-  - redis
-  - mongo
-  environment:
-  - MONGODB=mongodb://mongo:27017/hackathon_test
-  - REDIS=redis://redis:6379
+  - VIRTUAL_HOST=simple.docker
+  - NODE_ENV=development
 mongo:
   image: mongo
 redis:
   image: redis
+
+webpack:
+ build: ./webpack
+ environment:
+  - VIRTUAL_HOST=webpack.simple.docker
+  - ENV=dev
+ volumes:
+ - ./webpack:/webpack
+ volumes_from:
+ - app
