@@ -35,6 +35,15 @@ h1, h2, h3, h4 {
   .nav-toggle {
     position: absolute;
   }
+
+  .check-prices {
+    transition: opacity 0.2s;
+    opacity: 0;
+
+    &.scrolled {
+      opacity: 1;
+    }
+  }
 }
 
 .fold {
@@ -67,7 +76,7 @@ h1, h2, h3, h4 {
       position: absolute;
       top: 50px;
       &.has-scrolled {
-        top: 55px;
+        top: 0px;
       }
     }
   }
