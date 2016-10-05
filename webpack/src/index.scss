@@ -13,17 +13,24 @@ h1, h2, h3, h4 {
   font-size: 1.5rem;
 }
 
-.nav-item.is-brand {
-  font-family: 'Berkshire Swash';
-  font-weight: 700;
-  font-size: 1.75rem;
-  color: #555;
-}
-
 .nav {
   position: fixed;
   top: 0;
   width: 100%;
+
+  .nav-center {
+    min-width: 200px;
+  }
+
+  .nav-item.is-brand {
+    position: absolute;
+    top: 0;
+    transition: top 0.2s;
+    font-family: 'Berkshire Swash';
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: #555;
+  }
 
   .nav-toggle {
     position: absolute;
@@ -34,22 +41,10 @@ h1, h2, h3, h4 {
   padding-top: 35px;
 }
 
-
-#nav-menu {
-
-  &.nav-left {
-    justify-content: center;
-  }
-
-
-  &.is-active {
-    display: flex;
-
-  }
-}
 .hero.fold {
-
-  height: 100%;
+  position: relative;
+  min-height: 540px;
+  height: 100vh;
   background-image: url("http://lemonade.com/assets/home/index/bg-skyline-combined-ac9ca47514e7fafd574df7dcf40f78a7d146e321751f4cfb7399b078d86bcdd5.svg");
   background-position: right bottom 0px;
   background-size: auto 35%;
@@ -67,8 +62,19 @@ h1, h2, h3, h4 {
 }
 
 @include tablet {
+  .nav {
+    .nav-item.is-brand {
+      position: absolute;
+      top: 50px;
+      &.has-scrolled {
+        top: 55px;
+      }
+    }
+  }
+
+
   .hero.fold {
-    padding-top: 50px;
+    padding-top: 100px;
     background-image: none;
     h1 {
       font-size: 2rem;
@@ -99,4 +105,27 @@ h1, h2, h3, h4 {
     background-image: url("http://lemonade.com/assets/home/index/bg-skyline-combined-ac9ca47514e7fafd574df7dcf40f78a7d146e321751f4cfb7399b078d86bcdd5.svg");
     background-position: right bottom;
   }
+}
+
+@include desktop {
+  .hero.fold {
+    height: 90vh;
+
+    .hero-body {
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 4rem;
+    }
+
+    p {
+      font-size: 1.75rem;
+    }
+
+    .check-prices {
+      margin-top: 30px;
+    }
+  }
+
 }
