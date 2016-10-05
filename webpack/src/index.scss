@@ -25,7 +25,7 @@ h1, h2, h3, h4 {
   .nav-item.is-brand {
     position: absolute;
     top: 0;
-    transition: top 0.2s;
+    transition: all 0.2s;
     font-family: 'Berkshire Swash';
     font-weight: 700;
     font-size: 1.75rem;
@@ -73,10 +73,12 @@ h1, h2, h3, h4 {
 @include tablet {
   .nav {
     .nav-item.is-brand {
+      font-size: 2rem;
       position: absolute;
       top: 50px;
       &.has-scrolled {
         top: 0px;
+        font-size: 1.75rem;
       }
     }
   }
