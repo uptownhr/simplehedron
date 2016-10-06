@@ -1,6 +1,8 @@
 $family-primary: "Lato", sans-serif;
 $blue: #4290fd;
 $primary: $blue;
+$body-background: white;
+$grey-lightest: #F7F7F7;
 
 @import 'bulma/bulma.sass';
 
@@ -68,7 +70,7 @@ h1, h2, h3, h4 {
 }
 
 .instant-sketch {
-  background: transparent url("http://lemonade.com/assets/home/index/bg-app-sketch-388bff588657844adc7f9afadf7a23c3ebde8426e94e06f48282aa19bcd82ce4.svg") center bottom -2px no-repeat;
+  background: transparent url("./assets/instant-sketch.svg") center bottom -2px no-repeat;
   background-size: 263px 252px;
   position: relative;
   width: 463px;
@@ -105,9 +107,10 @@ h1, h2, h3, h4 {
 }
 
 .prices {
-  padding: 0 5%;
-  .column {
-    padding: 0rem 40px 2rem;
+  .box {
+    background-color: $grey-lightest;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   .price {
@@ -120,6 +123,7 @@ h1, h2, h3, h4 {
   &.has-border-bottom-grey {
     border-bottom: 1px solid $grey-lighter;
     padding-bottom: 0;
+    margin-bottom: 2rem;
   }
 }
 
@@ -169,6 +173,17 @@ h1, h2, h3, h4 {
     width: 600px;
     background-image: url("./assets/fold-skyline-1.svg");
     background-position: right bottom;
+  }
+
+  .prices {
+    padding: 0 2rem;
+    .column {
+      padding: 0 2rem;
+    }
+
+    .price {
+      font-size: 5rem;
+    }
   }
 }
 
