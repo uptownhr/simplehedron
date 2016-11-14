@@ -12,8 +12,8 @@ module.exports = {
   secret: 'asdfasdfzcvzxcv',
   payment: {
     stripe:{
-      public_key: 'pk_test_8iCRH4xJXGEWYt4DkbECYDM8',
-      secret_key: 'sk_test_9yjqifpcg5f0PlJDEIHQWGRm',
+      secret_key: 'sk_test_qldG1kQ61EU7ZMMxvClrysEN',
+      public_key: 'pk_test_ApQdT0PR028HFCs8ialWkRVT',
     }
   },
   social:{

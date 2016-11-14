@@ -84,7 +84,7 @@ router.post('/register', function (req, res, next) {
 
       return user.save()
     })
-    .then(registeredUser => req.logIn(registeredUser, (err) => {
+    .then( registeredUser => req.logIn(registeredUser, (err) => {
       if (err) return next(err)
       res.redirect('/')
     }))

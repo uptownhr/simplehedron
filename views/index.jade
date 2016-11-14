@@ -7,11 +7,11 @@ block content
           h1 Schedule The Perfect Social Media Campaign
           p Maximize your team's social reach and create conversations
           br
-          a.button.is-primary.is-large.is-expanded.check-prices CHECK OUR PRICES
+          a.button.is-primary.is-large.is-expanded.check-prices(href="#prices") CHECK OUR PRICES
           br
           br
           a Watch the video
-  section.section.hero
+  section#prices.section.hero
     .hero-body
       .container.has-text-centered
         h1 Killer Prices,
@@ -24,32 +24,37 @@ block content
             .box
               h3 Startup
               br
-              p 5 user teams
-              .price $50
+              p Single Company
+              .price $100
+                small /year
               br
-              a.button.is-primary.is-medium.is-fullwidth Buy Now
+
+              form(action='/register/startup', method='POST')
+                script.stripe-button(src='https://checkout.stripe.com/checkout.js', data-key='#{config.payment.stripe.public_key}', data-amount='10000', data-name='Gethoneybadger', data-description='Widget', data-image='https://stripe.com/img/documentation/checkout/marketplace.png', data-locale='auto')
           .column.is-half
             .box
-              h3 We're making money
+              h3 Marketer
               br
-              p Infinite users
+              p Multiple Companies
               .price $500
+                small /year
               br
-              a.button.is-primary.is-medium.is-fullwidth Buy Nowx
+              form(action='/register/marketer', method='POST')
+                script.stripe-button(src='https://checkout.stripe.com/checkout.js', data-key='#{config.payment.stripe.public_key}', data-amount='50000', data-name='Gethoneybadger', data-description='Widget', data-image='https://stripe.com/img/documentation/checkout/marketplace.png', data-locale='auto')
   section.section.has-border-bottom-grey
     .container.has-text-centered
-      h1 Instant Everything
+      h1 Schedule Everything
       br
-      p Maya, our charming artifical intelligence bot will craft the perfect insurance for you. It couldn't be easier, or faster
+      p Schedule the the person and when the message should be sent out. Create pre-scheduled conversations on every social network.
       br
       a Watch the video
       .instant-sketch
         span.lend
-          strong lend
-          | get paid
+          strong schedule
+          | messages
         span.borrow
-          strong borrow
-          | get paid
+          strong send
+          | everyone
 
 
   section.section test

@@ -13,6 +13,10 @@ var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
   password: String,
   role: { type: String, enum: ['admin', 'member'], default: 'member' },
+  plan: {
+    name: String,
+    customer_id: String
+  },
 
   providers: [providerSchema],
 

@@ -41,6 +41,16 @@ exports.isAdmin = function (req, res, next) {
 }
 
 /**
+ * Paid User
+ */
+
+exports.isPaid = function (req, res, next) {
+  if (req.user && req.user.plan != null) return next()
+
+  res.send('Only paid users may access the admin page')
+}
+
+/**
  * Sign in using Email and Password.
  */
 passport.use(new LocalStrategy({ usernameField: 'email' }, function (email, password, done) {

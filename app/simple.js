@@ -1,6 +1,5 @@
-const { Message, User } = require('../models')
-
-let scheduled_messages = []
+const { Message, User } = require('../models'),
+  Sender = require('./sender')
 
 const Simple = {
   message: {
@@ -42,57 +41,6 @@ const Simple = {
   }
 }
 
-const Sender = function sender (message) {
-  const senders = {
-    'twitter': function(){
-      console.log('sending twitter')
-    },
-    'facebook': function(){
-      console.log('sending facebook')
-    },
-    'linkedin': function(){
-      console.log('sending linkedin')
-    }
-  }
-
-
-  this.start = () => {
-    return this.send_primary().then(this.send_amplified)
-  }
-
-  this.send_primary = (count = 0) => {
-    console.log('sending primary')
-    return new Promise( (resolve,reject) => {
-      let messages = message.scheduled.filter( m => m.primary )
-
-      messages.forEach( this.send )
-
-
-      resolve( count + messages.length )
-      console.log('primary sent', messages.length)
-    }).catch(console.log)
-  }
-
-  this.send_amplified = (count = 0) => {
-    console.log('sending amplified')
-
-    return new Promise( (resolve, reject) => {
-      let messages = message.scheduled.filter( m => !m.primary )
-
-      messages.forEach( m => {
-        senders[m.network](m)
-      })
-
-      resolve( count + messages.length )
-      console.log('amplified sent', messages.length)
-    }).catch(console.error)
-  }
-
-  this.send = (message) => {
-    senders[message.network](message)
-  }
-}
-
 function schedule_networks (_user, message, networks, primary = false) {
   return networks.map( n => ({
     _user,
@@ -105,41 +53,4 @@ function schedule_networks (_user, message, networks, primary = false) {
   }) )
 }
 
-
-let user = new User({
-  email: 'jlee@penguin.ws',
-  password: '12341234'
-})
-
-let networks = [{
-  network: 'twitter'
-},{
-  network: 'facebook'
-}, {
-  network: 'linkedin'
-}]
-
-let message = Simple.message.create(user, Date.now(), {text:'testing'}, networks)
-
-console.log('message created', message)
-
-let user2 = new User({
-  email: 'james@penguin.ws',
-  password: '12341234'
-})
-
-let user3 = new User({
-  email: 'jake@penguin.ws',
-  password: '12341234'
-})
-
-Simple.message.add_amplified_user(message, user2, networks)
-Simple.message.add_amplified_user(message, user3, networks)
-
-console.log('amplified added', message)
-
-console.log('scheduled messages', Simple.message.schedule(message) )
-console.log('wtf')
-Simple.message.send(message).then( (count) => {
-  console.log('sent', count)
-} )
+module.exports = Simple
