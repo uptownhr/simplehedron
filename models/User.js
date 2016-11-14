@@ -30,8 +30,11 @@ var userSchema = new mongoose.Schema({
 
   askEmail: { type: Boolean, default: true },
   created: { type: Date, default: Date.now },
-  resetPasswordToken: String,
-  resetPasswordExpires: Date
+
+  loginToken: {
+    token: String,
+    expiration: Date
+  }
 })
 
 /**
@@ -87,5 +90,24 @@ userSchema.methods.gravatar = function (size) {
   var md5 = crypto.createHash('md5').update(this.email).digest('hex');
   return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro';
 };
+
+/**
+ * Generate Login Token
+ */
+userSchema.methods.generateLoginToken = function(cb){
+  console.log('generate')
+  crypto.randomBytes(16, (err, buf) => {
+    const token = buf.toString('hex');
+
+    this.loginToken = {
+      token,
+      expiration: Date.now() + 1000 * 60 * 5 //works for 5 min
+    }
+    this.save( (err, saved) => {
+      cb(err, token)
+    })
+  });
+}
+
 
 module.exports = mongoose.model('User', userSchema);

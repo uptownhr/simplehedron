@@ -4,22 +4,50 @@ const router = require('express').Router(),
   queryString = require('querystring'),
   passport = require('passport')
 
+function mailUser(user, subject, body){
+  console.log(user, subject, body)
+}
+
 router.get('/login', function (req, res) {
   res.render('login')
 })
 
+router.get('/login/:token', function (req, res) {
+  console.log(req.params)
+  User.findOne({'loginToken.token': req.params.token, 'loginToken.expiration': {$gt: Date.now()}}).exec()
+  .then( user => {
+      if (!user) return res.redirect("/auth/login")
+
+      user.loginToken = { token: null, expiration: null }
+      user.save().then( saved => {
+        req.logIn(saved, err => {
+          res.redirect('/admin')
+        })
+      })
+    }).catch( err => res.send({err}) )
+})
+
 router.post('/login', function (req, res, next) {
   req.assert('email', 'Email is not valid').isEmail();
-  req.assert('password', 'Password must be at least 6 characters long').len(6);
 
   var errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
-    return res.redirect('login');
+    return res.send(errors)
   }
+  console.log('finding user', req.body)
 
-  passport.authenticate('local', function (err, user, info) {
+  User.findOne({email: req.body.email})
+    .then( user => {
+      user.generateLoginToken( (err, token) => {
+        let login = `http://${process.env.VIRTUAL_HOST}/auth/login/${token}`
+
+        mailUser(user, "Login Email", `Hi, please click on this link to login. <br/> <br/> <a href="${login}">Login</a>`)
+        res.send(`Your login email has been sent to ${user.email}. Please check your email to login.  Test::${login}`)
+      })
+    })
+
+  /*passport.authenticate('local', function (err, user, info) {
     if (err) {
       return next(err);
     }
@@ -37,14 +65,14 @@ router.post('/login', function (req, res, next) {
       req.flash('success', { msg: 'Success! You are logged in.' });
       res.redirect(req.session.returnTo || '/');
     });
-  })(req, res, next);
+  })(req, res, next);*/
 })
 
-router.get('/register', function (req, res) {
+/*router.get('/register', function (req, res) {
   res.render('register', {
     query: req.query
   })
-})
+})*/
 
 router.get('/logout', function (req, res) {
   req.logout()
@@ -52,7 +80,7 @@ router.get('/logout', function (req, res) {
   res.redirect('/')
 })
 
-router.post('/register', function (req, res, next) {
+/*router.post('/register', function (req, res, next) {
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password must be at least 6 characters long').len(6);
 
@@ -91,7 +119,7 @@ router.post('/register', function (req, res, next) {
     .catch((err) => {
       if (err) return next(err)
     })
-})
+})*/
 
 router.get('/o/:provider', function (req, res, next) {
   const provider = req.params.provider
