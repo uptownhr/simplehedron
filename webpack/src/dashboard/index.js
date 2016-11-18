@@ -1,16 +1,6 @@
 require('./index.scss')
 
-const Vue = require('vue'),
-  modal = require('./components/modal.html'),
-  signPip = require('./components/sign-pip.html'),
-  slide = require('./components/slide.html'),
-  slidePipPreview = require('./components/slide-pip-preview.html'),
-  profile = require('./components/profile.html'),
-  mainNav = require('./components/main-nav.html'),
-  maya = require('./components/maya.html'),
-  fileUpload = require('./components/file-upload.html'),
-  addEmployeeModal = require('./components/add-employee-modal.html'),
-  userList = require('./components/user-list.html')
+const Vue = require('vue')
 
 Vue.filter('capitalize', function (str) {
   if(str) return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()})
@@ -48,38 +38,8 @@ Vue.transition('fade', {
   }
 })
 
-Vue.component('file-upload', {
-  template: fileUpload,
-  props: {
-    handle_upload:{
-      required: true
-    }
-  },
-  ready: function(){
-    console.log(this.files)
-  },
-  methods: {
-    handle_click: function(){
-      console.log('handle clcick file upload')
-      filepicker.pickMultiple(
-        {
-          services: ['CLOUDDRIVE','COMPUTER','DROPBOX','GOOGLE_DRIVE','EVERNOTE','GMAIL','FTP','CLOUDAPP'],
-          customCss: '//bambeecom.docker/assets/filestack.css'
-        },
-        function(Blobs){
-          this.handle_upload(Blobs)
-        }.bind(this),
-        function(err){
-          console.log('upload error', err)
-        }
-      );
-    }
-  }
-})
-
-
-
 $(window).on('scroll', function(){
+
   var top = $(window).scrollTop()
 
   if (top > 25 ) {

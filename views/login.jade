@@ -1,44 +1,65 @@
-extends layout
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href="https://fonts.googleapis.com/css?family=Lato:300,400,700|Merriweather:300,400|Oleo+Script|Lobster+Two|Berkshire+Swash" rel="stylesheet")
+    link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
+    title Simplehedron
+  body
+    section.hero.is-fullheight
+      .hero-head
+        nav.nav
+          div.nav-toggle
+            span
+            span
+            span
+          div.nav-menu.nav-left
+            a.nav-item(href="/") Home
+      .hero-body
 
-block content
-  style.
-    .section.page {
-      margin-top: 80px;
-    }
+        .container.has-text-centered
+          h1.title.is-brand.is-1 Simplehedron
+          p Dashboard Login
+          .section
+            .columns.is-centered
+              .column.is-4
+                form.form-horizontal(role='form', method='POST', action='/auth/login')
+                  .control.has-addons
+                    input#email.input.is-expanded(placeholder='Email' name='email')
+                    a.button.is-info(type='submit')
+                      span.icon
+                        i.fa.fa-lock
+                      span
+                        | Login
+          .div.box
+            h2.title Or sign in with using your social accounts
+            ul
+              li
+                a.btn.btn-block.btn-social.btn-twitter(href='/auth/o/twitter')
+                  i.fa.btn-xs.fa-twitter
+                  |  Sign in with Twitter
+              li
+                a.btn.btn-block.btn-social.btn-instagram(href='/auth/o/instagram')
+                  i.fa.btn-xs.fa-instagram
+                  |  Sign in with Instagram
+              li
+                a.btn.btn-block.btn-social.btn-facebook(href='/auth/o/facebook')
+                  i.fa.btn-xs.fa-facebook
+                  |  Sign in with Facebook
+              li
+                a.btn.btn-block.btn-social.btn-github(href='/auth/o/github')
+                  i.fa.btn-xs.fa-github
+                  |  Sign in with Github
+              li
+                a.btn.btn-block.btn-social.btn-google(href='/auth/o/google')
+                  i.fa.btn-xs.fa-google
+                  |  Sign in with Google
 
-  .section.page
-    .container.has-text-centered
-
-      p.lead Sign in with email
-      form.form-horizontal(role='form', method='POST', action='/auth/login')
-        .form-group
-          label.col-sm-2.control-label(for='email') Email
-          .col-sm-8
-            input#email.form-control(type='text', name='email', value='')
-        .form-group
-          .col-sm-offset-2.col-sm-8
-            button.btn.btn-primary(type='submit')
-              i.fa.btn-xs.fa-lock
-              |  Login
-      p.lead
-        | Or click here to &nbsp;
-        a(href='/auth/register') Sign Up
-      .div
-        p.lead Or sign in with ...
-        a.btn.btn-block.btn-social.btn-twitter(href='/auth/o/twitter')
-          i.fa.btn-xs.fa-twitter
-          |  Sign in with Twitter
-        a.btn.btn-block.btn-social.btn-instagram(href='/auth/o/instagram')
-          i.fa.btn-xs.fa-instagram
-          |  Sign in with Instagram
-        a.btn.btn-block.btn-social.btn-facebook(href='/auth/o/facebook')
-          i.fa.btn-xs.fa-facebook
-          |  Sign in with Facebook
-        a.btn.btn-block.btn-social.btn-github(href='/auth/o/github')
-          i.fa.btn-xs.fa-github
-          |  Sign in with Github
-        a.btn.btn-block.btn-social.btn-google(href='/auth/o/google')
-          i.fa.btn-xs.fa-google
-          |  Sign in with Google
-
-
+    script(src="http://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous")
+    script(src="//webpack.simple.docker/static/common.js")
+    script(src="//webpack.simple.docker/static/site.js")
+    script.
+      $(document).ready(function(){
+        $('#email').focus()
+      })

@@ -1,0 +1,215 @@
+$family-primary: "Lato", sans-serif;
+$blue: #4290fd;
+$primary: $blue;
+$body-background: white;
+$grey-lightest: #F7F7F7;
+
+@import '../bulma/bulma.sass';
+
+h1, h2, h3, h4 {
+  font-family: 'Merriweather';
+  line-height: 1.3;
+  font-weight: 400;
+  font-size: 1.75rem;
+}
+
+.button.is-large {
+  height: 60px;
+  font-size: 1.5rem;
+}
+
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+
+  .nav-center {
+    min-width: 200px;
+  }
+
+  .nav-item.is-brand {
+    position: absolute;
+    top: 0;
+    transition: all 0.2s;
+    font-family: 'Berkshire Swash';
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: #555;
+  }
+
+  .nav-toggle {
+    position: absolute;
+  }
+
+  .check-prices {
+    transition: opacity 0.2s;
+    opacity: 0;
+
+    &.scrolled {
+      opacity: 1;
+    }
+  }
+}
+
+.fold {
+  padding-top: 35px;
+}
+
+.hero.fold {
+  position: relative;
+  min-height: 540px;
+  height: 100vh;
+  background-image: url("./assets/fold-skyline-1.svg");
+  background-position: right bottom 0px;
+  background-size: auto 35%;
+  background-repeat: repeat-x;
+
+  .hero-body {
+    align-items: flex-start;
+  }
+}
+
+.instant-sketch {
+  background: transparent url("./assets/instant-sketch.svg") center bottom -2px no-repeat;
+  background-size: 263px 252px;
+  position: relative;
+  width: 463px;
+  height: 442px;
+  width: 100%;
+  height: auto;
+  min-height: 400px;
+  margin: 2rem auto 0;
+
+  @include tablet {
+    background-size: 340px;
+  }
+
+  span {
+    position: absolute;
+    font-size: 1.25rem;
+
+    &::before {
+      content: ""
+    }
+
+    &.lend {
+      top: 28px;
+      right: 50%;
+      padding-right: 40px;
+    }
+
+    &.borrow {
+      top: 75px;
+      left: 50%;
+      padding-left: 60px;
+    }
+
+    strong {
+      display: block;
+    }
+  }
+}
+
+.prices {
+  .box {
+    background-color: $grey-lightest;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .price {
+    font-size: 5rem;
+  }
+}
+
+
+.section {
+  &.has-border-bottom-grey {
+    border-bottom: 1px solid $grey-lighter;
+    padding-bottom: 0;
+    margin-bottom: 2rem;
+  }
+}
+
+@include tablet {
+  h1 {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1.25rem;
+  }
+
+  .nav {
+    .nav-item.is-brand {
+      font-size: 2rem;
+      position: absolute;
+      top: 50px;
+      &.has-scrolled {
+        top: 0px;
+        font-size: 1.75rem;
+      }
+    }
+  }
+
+
+  .hero.fold {
+    padding-top: 100px;
+    background-image: none;
+  }
+  .fold:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 250px;
+    width: 600px;
+    background-image: url("./assets/fold-skyline-1.svg");
+    background-position: left bottom;
+    background-size: auto;
+  }
+
+  .fold:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 250px;
+    width: 600px;
+    background-image: url("./assets/fold-skyline-1.svg");
+    background-position: right bottom;
+  }
+
+  .prices {
+    padding: 0 2rem;
+    .column {
+      padding: 0 2rem;
+    }
+
+    .price {
+      font-size: 5rem;
+    }
+  }
+}
+
+@include desktop {
+  h1 {
+    font-size: 4rem;
+  }
+
+  p {
+    font-size: 1.75rem;
+  }
+
+  .hero.fold {
+    height: 90vh;
+
+    .hero-body {
+      align-items: center;
+    }
+
+    .check-prices {
+      margin-top: 30px;
+    }
+  }
+
+}

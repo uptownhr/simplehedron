@@ -5,6 +5,7 @@
   "main": "popup.js",
   "dependencies": {
     "extract-text-webpack-plugin": "^1.0.1",
+    "resolve-url-loader": "^1.6.0",
     "vue": "^1.0.26"
   },
   "scripts": {

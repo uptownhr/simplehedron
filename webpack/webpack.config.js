@@ -8,15 +8,22 @@ console.log(url)
 var settings = {
   'dev': {
     devtool: 'source-map',
-    entry: [
-      `webpack-dev-server/client?${url}`,
-      'webpack/hot/dev-server',
-      './src/index'
-    ],
+    entry: {
+      dashboard: [
+        'webpack-dev-server/client?http://webpack.simple.docker',
+        'webpack/hot/dev-server',
+        './src/dashboard'
+      ],
+      site: [
+        'webpack-dev-server/client?http://webpack.simple.docker',
+        'webpack/hot/dev-server',
+        './src/site'
+      ]
+    },
     output: {
       path: path.join(__dirname, 'static'),
-      filename: 'bundle.js',
-      publicPath: url + '/static/'
+      filename: '[name].js',
+      publicPath: '/static/'
     },
     module: {
       loaders: [
@@ -26,15 +33,17 @@ var settings = {
           include: path.join(__dirname, 'src')
         },{
           test: /\.scss$/,
-          loaders: ["style", "css?sourceMap", "sass?sourceMap"]
+          //loaders: ["style", "css?sourceMap", "sass?sourceMap"],
+          loaders: ["style", "css", "resolve-url", "sass?sourceMap"]
         },
         { test: /\.css$/, loader: "style!css" },
-        { test: /\.(png|svg)$/, loader: 'url-loader?limit=10240' },
+        { test: /\.(png|jpg|gif|svg)$/, loader: 'url-loader?limit=10240' },
         { test: /\.html$/, loader: 'html' }
       ]
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.optimize.CommonsChunkPlugin("common", "common.js")
     ]
   },
 

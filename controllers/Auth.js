@@ -43,7 +43,8 @@ router.post('/login', function (req, res, next) {
         let login = `http://${process.env.VIRTUAL_HOST}/auth/login/${token}`
 
         mailUser(user, "Login Email", `Hi, please click on this link to login. <br/> <br/> <a href="${login}">Login</a>`)
-        res.send(`Your login email has been sent to ${user.email}. Please check your email to login.  Test::${login}`)
+        res.redirect(`/auth/login/${token}`)
+        //res.send(`Your login email has been sent to ${user.email}. Please check your email to login.  Test::${login}`)
       })
     })
 
