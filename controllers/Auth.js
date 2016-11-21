@@ -59,7 +59,7 @@ router.get('/login/:token', function (req, res) {
       user.loginToken = { token: null, expiration: null }
       user.save().then( saved => {
         req.logIn(saved, err => {
-          res.redirect('/admin')
+          res.redirect('/dashboard')
         })
       })
     }).catch( err => res.send({err}) )

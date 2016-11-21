@@ -6,7 +6,8 @@
   "dependencies": {
     "extract-text-webpack-plugin": "^1.0.1",
     "resolve-url-loader": "^1.6.0",
-    "vue": "^1.0.26"
+    "vue": "^2.0.8",
+    "vue-router": "^2.0.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -32,7 +32,7 @@ router.post('/register/:plan', function (req, res) {
 
       user.save().then( saved => {
         req.logIn(saved, err => {
-          res.redirect('/admin')
+          res.redirect('/dashboard')
         })
       })
     }
