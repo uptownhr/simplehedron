@@ -41,6 +41,7 @@
     "passport-twitter": "^1.0.4",
     "qs": "^6.1.0",
     "remarkable": "^1.6.2",
+    "sendgrid": "^4.7.1",
     "stripe": "^4.5.0",
     "validator": "^5.2.0"
   },

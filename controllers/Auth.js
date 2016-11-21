@@ -2,10 +2,48 @@ const router = require('express').Router(),
   config = require('../config'),
   User = require('../models/User'),
   queryString = require('querystring'),
-  passport = require('passport')
+  passport = require('passport'),
+  sg = require('sendgrid')(config.mail.sendgrid)
 
 function mailUser(user, subject, body){
   console.log(user, subject, body)
+  var request = sg.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: {
+      personalizations: [
+        {
+          to: [
+            {
+              email: user.email,
+            },
+          ],
+          subject: subject,
+        },
+      ],
+      from: {
+        email: 'login@simplehedron.com',
+      },
+      content: [
+        {
+          type: 'text/html',
+          value: body,
+        },
+      ],
+    },
+  });
+
+  sg.API(request)
+    .then(response => {
+      console.log(response.statusCode);
+      console.log(response.body);
+      console.log(response.headers);
+    })
+    .catch(error => {
+      //error is an instance of SendGridError
+      //The full response is attached to error.response
+      console.log(error.response.statusCode);
+    });
 }
 
 router.get('/login', function (req, res) {
@@ -39,12 +77,15 @@ router.post('/login', function (req, res, next) {
 
   User.findOne({email: req.body.email})
     .then( user => {
+
+      if (!user) return res.redirect('/auth/login')
+
       user.generateLoginToken( (err, token) => {
         let login = `http://${process.env.VIRTUAL_HOST}/auth/login/${token}`
 
         mailUser(user, "Login Email", `Hi, please click on this link to login. <br/> <br/> <a href="${login}">Login</a>`)
-        res.redirect(`/auth/login/${token}`)
-        //res.send(`Your login email has been sent to ${user.email}. Please check your email to login.  Test::${login}`)
+        //res.redirect(`/auth/login/${token}`)
+        res.send(`Your login email has been sent to ${user.email}. Please check your email to login.`)
       })
     })
 

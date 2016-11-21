@@ -37,5 +37,8 @@ module.exports = {
       client_id: process.env.GOOGLE_CLIENT_ID || '594900274152-pjsvjn95m0afhg65j0iv9smrrj7umd3k.apps.googleusercontent.com',
       client_secret: process.env.GOOGLE_CLIENT_SECRET || 'h8UXTLXGkBw6hSa9AXB-1-y3'
     }
+  },
+  mail: {
+    sendgrid: process.env.SENDGRID
   }
 }
