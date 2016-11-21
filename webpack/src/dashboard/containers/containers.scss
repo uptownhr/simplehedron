@@ -1,0 +1,13 @@
+.step {
+  display: none;
+
+  &.is-active {
+    display: block;
+  }
+}
+
+.email-invites {
+  .input {
+    margin-top: 1rem;
+  }
+}

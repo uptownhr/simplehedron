@@ -1,0 +1,71 @@
+<div class="hero is-info is-fullheight">
+    <div class="hero-head">
+        <div class="container has-text-centered">
+            <h1 class="title">Getting Started</h1>
+            <div class="tabs is-centered">
+                <ul>
+                    <li><a>1. Create a Company</a></li>
+                    <li><a>2. Connect Accounts</a></li>
+                    <li><a>3. Invite Members</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="step" :class="{'is-active': step == 0}">
+                <h1 class="title">What is your company name?</h1>
+                <form @submit.prevent="handle_next">
+                    <p class="control has-addons has-addons-centered">
+                        <input v-model="company_name" class="input is-large" type="text" placeholder="Company name">
+                        <button class="button is-large" type="submit">Next</button>
+                    </p>
+
+                </form>
+            </div>
+            <div class="step" :class="{'is-active': step == 1}">
+                <h1 class="title">Connect your Social Accounts</h1>
+                <div class="columns is-multiline is-centered social-connect">
+                    <div class="column">
+                        <a class="button is-primary is-inverted is-large">
+                            <span class="icon">
+                                <i class="fa fa-twitter"></i>
+                            </span>
+                            <span>Connect your Twitter Account</span>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a class="button is-primary is-inverted is-large">
+                            <span class="icon">
+                                <i class="fa fa-facebook"></i>
+                            </span>
+                            <span>Connect your Facebook Account</span>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a class="button is-primary is-inverted is-large">
+                            <span class="icon">
+                                <i class="fa fa-linkedin"></i>
+                            </span>
+                            <span>Connect your Linkedin Account</span>
+                        </a>
+                    </div>
+                </div>
+                <button @click="handle_next" class="button is-primary is-inverted is-large" type="submit">Next</button>
+            </div>
+            <div class="step" :class="{'is-active': step == 2}">
+                <h1 class="title">Invite your co-workers</h1>
+                <form @submit.prevent="handle_next" class="email-invites">
+                    <div class="columns is-centered">
+                        <div class="column is-6">
+                            <input v-for="worker in workers" v-model="worker" class="input is-large is-expanded" type="text" placeholder="name@domain.com">
+                            <br><br>
+                            <a @click="handle_add_worker" class="button is-warning is-outlined is-medium is-pulled-right">+ Add another invitation</a>
+                        </div>
+                    </div>
+                    <button class="button is-inverted is-primary is-large" type="submit">Send Invitations</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

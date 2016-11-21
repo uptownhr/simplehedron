@@ -11,5 +11,9 @@ console.log(routes)
 const router = new VueRouter({ routes })
 
 const app = new Vue({
-  router
+  router,
+  mounted: function(){
+    if (!window.user.started) router.push('/getting-started')
+
+  }
 }).$mount('#app')

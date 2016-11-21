@@ -2,8 +2,9 @@ const router = require('express').Router()
 const async = require('async'),
   config = require('../config'),
   { User } = require('../models')
-11
+
 const stripe = require('stripe')(config.payment.stripe.secret_key);
+
 router.get('/', function (req, res) {
   res.render('index', {config});
 })

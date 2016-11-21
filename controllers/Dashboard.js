@@ -3,7 +3,9 @@ const router = require('express').Router(),
 
 
 router.use( (req, res) => {
-  res.render('dashboard/index.jade')
+  res.render('dashboard/index.jade',{
+    user: req.user
+  })
 })
 
 module.exports = router

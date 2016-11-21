@@ -4,10 +4,13 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(href="https://fonts.googleapis.com/css?family=Lato:300,400,700|Merriweather:300,400|Oleo+Script|Lobster+Two|Berkshire+Swash" rel="stylesheet")
+    link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
     title Simplehedron
   body
     #app
       router-view
+    script.
+      window.user = !{JSON.stringify(user)}
     script(src="http://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous")
     script(src="//webpack.simple.docker/static/common.js")
     script(src="//webpack.simple.docker/static/dashboard.js")
