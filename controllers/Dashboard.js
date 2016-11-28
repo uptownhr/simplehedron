@@ -56,7 +56,30 @@ apiRouter.post('/complete-getting-started', (req,res) => {
 router.use('/api', apiRouter)
 
 
+
+router.get('/testing', (req,res) => {
+  var graph = require('fbgraph'),
+    provider = req.user.providers.find( p => p.name == 'facebook' )
+
+  console.log('accesstoken', provider.accessToken)
+  graph.setAccessToken(provider.accessToken)
+
+  var wallPost = {
+    message: "testing something"
+  };
+
+  graph.post("/feed", wallPost, function(err, r) {
+    // returns the post id
+    console.log(err, r); // { id: xxxxx}
+    res.send({err, r})
+  });
+
+
+})
+
+
 router.use( (req, res) => {
+  console.log(config)
 
   req.user.populate('_active_company _companies', (err, user) => {
     res.render('dashboard/index.jade',{

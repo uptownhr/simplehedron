@@ -100,13 +100,12 @@ function handleOauthLogin(profileMapper) {
       findProviderUser(providerName, profile.id)
         .then(user => {
           if (user) {
-            req.flash('errors',
-              { msg: `There is already a ${provider.name}
-            account that belongs to you. Sign in with that account or
-            delete it, then link it with your current account.` });
 
-            console.log('done')
-            return done(null, req.user)
+            let p = user.providers.find( p => p.name == 'facebook' )
+            _.assign(p, provider )
+            return user.save(done)
+
+            //return done(null, req.user)
           }
 
           req.user.providers.push(provider)
@@ -171,7 +170,8 @@ passport.use(new FacebookStrategy({
   clientID: config.social.facebook.client_id,
   clientSecret: config.social.facebook.client_secret,
   callbackURL: '/auth/o/facebook/callback',
-  profileFields: ['id', 'displayName', 'gender', 'profileUrl', 'photos'],
+  scope: ['publish_actions'],
+  profileFields: ['id', 'displayName', 'gender', 'profileUrl', 'photos', 'email'],
   passReqToCallback: true
 }, handleOauthLogin(mapFacebookProfile)))
 

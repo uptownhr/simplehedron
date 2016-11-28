@@ -5,7 +5,7 @@
             <div class="tabs is-centered">
                 <ul>
                     <li><a>1. Create a Company</a></li>
-                    <li><a>2. Connect Accounts</a></li>
+                    <li><a @click="step=1">2. Connect Accounts</a></li>
                     <li><a>3. Invite Members</a></li>
                 </ul>
             </div>
@@ -39,7 +39,7 @@
                         </a>
                     </div>
                     <div class="column">
-                        <a class="button is-primary is-inverted is-large">
+                        <a href="/auth/o/facebook" class="button is-primary is-inverted is-large">
                             <span class="icon">
                                 <i class="fa fa-facebook"></i>
                             </span>

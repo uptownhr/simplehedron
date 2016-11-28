@@ -19,7 +19,7 @@ module.exports = {
   social:{
     facebook:{
       client_id: process.env.FACEBOOK_CLIENT_ID || '507223992817678',
-      client_secret: process.env.FACEBOOK_CLIENT_ID || '029377e578b512892b3fc8f295474b84' 
+      client_secret: process.env.FACEBOOK_CLIENT_SECRET || '029377e578b512892b3fc8f295474b84'
     },
     twitter:{
       consumer_key: process.env.TWITTER_CONSUMER_KEY || 'Jw6gdI0TGsuFzGq9ClIoqWuHu',

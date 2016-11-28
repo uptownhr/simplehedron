@@ -181,6 +181,7 @@ router.get('/o/:provider/callback', function (req, res, next) {
 
   if (config.social.hasOwnProperty(provider)) {
     console.log('attempting to login', provider)
+
     return passport.authenticate(provider, { failureRedirect: '/auth/login' })(req, res, next);
   } else {
     res.redirect('/');
