@@ -1,12 +1,12 @@
-<div class="hero is-info is-fullheight">
+<div class="hero is-info is-fullheight getting-started">
     <div class="hero-head">
         <div class="container has-text-centered">
             <h1 class="title">Getting Started</h1>
             <div class="tabs is-centered">
                 <ul>
-                    <li><a>1. Create a Company</a></li>
-                    <li><a @click="step=1">2. Connect Accounts</a></li>
-                    <li><a>3. Invite Members</a></li>
+                    <li :class="{'is-active': step == 0}"><a>1. Create a Company</a></li>
+                    <li :class="{'is-active': step == 1}"><a @click="step=1">2. Connect Accounts</a></li>
+                    <li :class="{'is-active': step == 2}"><a>3. Invite Members</a></li>
                 </ul>
             </div>
         </div>
@@ -58,7 +58,7 @@
                 <button @click="handle_next" class="button is-primary is-inverted is-large" type="submit">Next</button>
             </div>
             <div class="step" :class="{'is-active': step == 2}">
-                <h1 class="title">Invite your co-workers to <span class="capitalize">{{$store.state.currentUser._activeCompany.name}}</span></h1>
+                <h1 class="title">Invite your co-workers to <span class="capitalize">{{$store.state.currentUser._activeCompany.name}}  </span></h1>
                 <form @submit.prevent="handle_send_invitations" class="email-invites">
                     <div class="columns is-centered">
                         <div class="column is-6">

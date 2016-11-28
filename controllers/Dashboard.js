@@ -81,7 +81,7 @@ router.get('/testing', (req,res) => {
 router.use( (req, res) => {
   console.log(config)
 
-  req.user.populate('_active_company _companies', (err, user) => {
+  req.user.populate('_activeCompany _companies', (err, user) => {
     res.render('dashboard/index.jade',{
       user
     })

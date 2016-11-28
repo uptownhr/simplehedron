@@ -92,11 +92,8 @@ function handleOauthLogin(profileMapper) {
     const providerName = req.params.provider;
     const mappedProfile = profileMapper(profile);
     const provider = { id: profile.id, accessToken, secondaryToken, name: providerName }
-    console.log('oauth login handler')
-    console.log('mapped profile', mappedProfile)
 
     if (req.user) {
-      console.log('user is already loged in, updating')
       //check if this oauth login is already being used
       findProviderUser(providerName, profile.id)
         .then(user => {
@@ -116,7 +113,6 @@ function handleOauthLogin(profileMapper) {
           })
         })
     }else {
-      console.log('wtf, no user')
       findProviderUser(providerName, profile.id)
         .then(user => {
 
@@ -184,7 +180,6 @@ passport.use(new FacebookStrategy({
  * @returns {{id: *, name: *, gender: *, location: '', website: '', picture; *}}
  */
 function mapLinkedinProfile(profile) {
-  console.log(profile)
   return {
     id: profile.id,
     name: profile.formattedName,

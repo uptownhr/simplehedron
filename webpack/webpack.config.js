@@ -23,7 +23,7 @@ var settings = {
     output: {
       path: path.join(__dirname, 'static'),
       filename: '[name].js',
-      publicPath: '/static/'
+      publicPath: 'http://webpack.simple.docker/static/'
     },
     module: {
       loaders: [

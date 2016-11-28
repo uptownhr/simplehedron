@@ -1,3 +1,31 @@
+.getting-started {
+  .hero-head {
+    padding-top: 20px;
+
+    .tabs {
+      ul {
+        border-bottom: 1px solid white;
+
+
+        li {
+          &.is-active a {
+            font-weight: 700;
+            border-bottom: 1px solid $warning;
+          }
+        }
+
+        a {
+          border-bottom: 1px solid white;
+          &:hover {
+            font-weight: 700;
+            border-bottom: 1px solid black;
+          }
+        }
+      }
+    }
+  }
+}
+
 .step {
   display: none;
 
