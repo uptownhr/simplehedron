@@ -9,14 +9,26 @@ const Vue = require('vue'),
 Vue.use(VueRouter)
 Vue.use(Vuex)
 
-const router = new VueRouter({ routes })
 const store = new Vuex.Store(stores)
+
+const router = new VueRouter({
+  routes,
+})
+
+router.beforeEach(function(to, from, next){
+  if (store.state.currentUser.gettingStarted && to.path != '/getting-started'){
+    console.log('guarded')
+    return next('/getting-started')
+  }
+
+  next()
+})
+
 
 const app = new Vue({
   store,
   router,
   mounted: function(){
-    if (!window.user.started) router.push('/getting-started')
 
   }
 }).$mount('#app')

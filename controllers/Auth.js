@@ -51,12 +51,14 @@ router.get('/login', function (req, res) {
 })
 
 router.get('/login/:token', function (req, res) {
-  console.log(req.params)
   User.findOne({'loginToken.token': req.params.token, 'loginToken.expiration': {$gt: Date.now()}}).exec()
   .then( user => {
       if (!user) return res.redirect("/auth/login")
 
       user.loginToken = { token: null, expiration: null }
+
+      if (!user._activeCompany) user._activeCompany = user._companies[0]
+
       user.save().then( saved => {
         req.logIn(saved, err => {
           res.redirect('/dashboard')

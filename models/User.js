@@ -18,8 +18,6 @@ var userSchema = new mongoose.Schema({
     customer_id: String
   },
 
-  providers: [providerSchema],
-
   profile: {
     name: { type: String, default: '' },
     gender: { type: String, default: '' },
@@ -29,15 +27,18 @@ var userSchema = new mongoose.Schema({
   },
 
   askEmail: { type: Boolean, default: true },
-  created: { type: Date, default: Date.now },
+  gettingStarted: { type: Boolean, default: true},
 
+  providers: [providerSchema],
   loginToken: {
     token: String,
     expiration: Date
   },
 
-  _companies: [{ type: mongoose.Schema.ObjectId, ref: 'Company' }]
+  _companies: [{ type: mongoose.Schema.ObjectId, ref: 'company' }],
+  _activeCompany: { type: mongoose.Schema.ObjectId, ref: 'company' },
 
+  created: { type: Date, default: Date.now }
 })
 
 /**

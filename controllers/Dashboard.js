@@ -24,6 +24,7 @@ apiRouter.post('/create-company', (req, res) => {
     return company
   }).then( company => {
     req.user._companies.addToSet( company._id )
+    req.user._activeCompany = company._id
     return req.user.save()
   }).then( user => {
     res.send( company )
@@ -33,12 +34,34 @@ apiRouter.post('/create-company', (req, res) => {
   })
 })
 
+apiRouter.post('/send-invitations', (req, res) => {
+
+  const employees = req.body.employees
+
+  Company.findOne( req.user._activeCompany ).then( company => {
+    company.invitations = company.invitations.concat(employees)
+    company.save().then( company => {
+      res.send(company)
+    })
+  })
+})
+
+apiRouter.post('/complete-getting-started', (req,res) => {
+  req.user.gettingStarted = false
+  req.user.save().then( user => {
+    res.send( user )
+  })
+})
+
 router.use('/api', apiRouter)
 
 
 router.use( (req, res) => {
-  res.render('dashboard/index.jade',{
-    user: req.user
+
+  req.user.populate('_active_company _companies', (err, user) => {
+    res.render('dashboard/index.jade',{
+      user
+    })
   })
 })
 

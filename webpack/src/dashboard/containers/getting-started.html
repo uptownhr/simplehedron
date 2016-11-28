@@ -58,12 +58,21 @@
                 <button @click="handle_next" class="button is-primary is-inverted is-large" type="submit">Next</button>
             </div>
             <div class="step" :class="{'is-active': step == 2}">
-                <h1 class="title">Invite your co-workers</h1>
-                <form @submit.prevent="handle_next" class="email-invites">
+                <h1 class="title">Invite your co-workers to <span class="capitalize">{{$store.state.currentUser._activeCompany.name}}</span></h1>
+                <form @submit.prevent="handle_send_invitations" class="email-invites">
                     <div class="columns is-centered">
                         <div class="column is-6">
-                            <input v-for="worker in workers" v-model="worker.email" class="input is-large is-expanded" type="text" placeholder="name@domain.com">
-                            <br><br>
+
+                            <div v-for="worker in workers" class="control is-grouped">
+                                <p class="control is-expanded">
+                                    <input v-model="worker.email" class="input is-large" type="email" placeholder="email">
+                                </p>
+                                <p class="control is-expanded">
+                                    <input v-model="worker.name" class="input is-large" type="text" placeholder="name *optional">
+                                </p>
+                            </div>
+
+                            <!--<input v-for="worker in workers" v-model="worker.email" class="input is-large is-expanded" type="text" placeholder="name@domain.com">-->
                             <a @click="handle_add_worker" class="button is-warning is-outlined is-medium is-pulled-right">+ Add another invitation</a>
                         </div>
                     </div>
