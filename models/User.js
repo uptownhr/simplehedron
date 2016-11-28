@@ -34,7 +34,10 @@ var userSchema = new mongoose.Schema({
   loginToken: {
     token: String,
     expiration: Date
-  }
+  },
+
+  _companies: [{ type: mongoose.Schema.ObjectId, ref: 'Company' }]
+
 })
 
 /**

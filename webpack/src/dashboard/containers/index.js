@@ -5,20 +5,41 @@ module.exports = {
     template: '<h1>Home</h1>'
   },
   gettingStarted: {
+    template: gettingStartedTemplate,
     data: function(){
       return {
-        step: 2,
+        step: 0,
         company_name: '',
-        workers: ['']
+        workers: [{
+          email: '',
+          name: ''
+        }],
+        errors: []
       }
     },
-    template: gettingStartedTemplate,
+    mounted () {
+      console.log('mounted', this.$store.state)
+
+      if (this.$store.state.current_user._companies.length != 0) this.step = 1
+
+    },
+
     methods: {
       handle_next: function(){
-        this.step++
+        this.create_company().then( res => {
+          if (res) {
+            this.step++
+            this.errors = []
+          }
+        })
       },
       handle_add_worker: function(){
         this.workers.push('')
+      },
+      create_company () {
+        return $.post('/dashboard/api/create-company', { company_name: this.company_name }, 'json').fail( err => {
+          this.errors = err.responseJSON.errors
+        })
       }
     }
   }

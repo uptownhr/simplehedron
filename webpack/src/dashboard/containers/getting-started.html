@@ -21,6 +21,10 @@
                         <button class="button is-large" type="submit">Next</button>
                     </p>
 
+                    <div v-for="error in errors" class="notification is-danger">
+                        {{error.msg}}
+                    </div>
+
                 </form>
             </div>
             <div class="step" :class="{'is-active': step == 1}">
@@ -58,7 +62,7 @@
                 <form @submit.prevent="handle_next" class="email-invites">
                     <div class="columns is-centered">
                         <div class="column is-6">
-                            <input v-for="worker in workers" v-model="worker" class="input is-large is-expanded" type="text" placeholder="name@domain.com">
+                            <input v-for="worker in workers" v-model="worker.email" class="input is-large is-expanded" type="text" placeholder="name@domain.com">
                             <br><br>
                             <a @click="handle_add_worker" class="button is-warning is-outlined is-medium is-pulled-right">+ Add another invitation</a>
                         </div>
