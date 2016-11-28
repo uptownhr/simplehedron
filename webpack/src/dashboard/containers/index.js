@@ -20,7 +20,9 @@ module.exports = {
     mounted () {
       console.log('mounted', this.$store.state)
 
-      if (this.$store.state.current_user._companies.length != 0) this.step = 1
+      if (this.$store.state.current_user.providers.length != 0) return this.step = 2
+      if (this.$store.state.current_user._companies.length != 0) return this.step = 1
+
 
     },
 

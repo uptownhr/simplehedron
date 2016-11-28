@@ -175,14 +175,17 @@ router.get('/o/:provider', function (req, res, next) {
 router.get('/o/:provider/callback', function (req, res, next) {
   const provider = req.params.provider
 
+  console.log('callback', provider)
+
   if (config.social.hasOwnProperty(provider)) {
+    console.log('attempting to login', provider)
     return passport.authenticate(provider, { failureRedirect: '/auth/login' })(req, res, next);
   } else {
     res.redirect('/');
   }
 }, function (req, res) {
-
-  res.redirect(req.session.returnTo || '/')
+  console.log('hello', req.session.returnTo)
+  res.redirect(req.session.returnTo || '/dashboard')
 })
 
 module.exports = router

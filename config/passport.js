@@ -28,7 +28,8 @@ exports.isAuthenticated = function (req, res, next) {
     return next()
   }
 
-  req.session.returnTo = req.path
+  console.log('when?', req.originalUrl)
+  req.session.returnTo = req.originalUrl
   res.redirect('/auth/login')
 }
 
@@ -91,7 +92,10 @@ function handleOauthLogin(profileMapper) {
     const providerName = req.params.provider;
     const mappedProfile = profileMapper(profile);
     const provider = { id: profile.id, accessToken, secondaryToken, name: providerName }
+    console.log('oauth login handler')
+
     if (req.user) {
+      console.log('user is already loged in, updating')
       //check if this oauth login is already being used
       findProviderUser(providerName, profile.id)
         .then(user => {
@@ -100,7 +104,9 @@ function handleOauthLogin(profileMapper) {
               { msg: `There is already a ${provider.name}
             account that belongs to you. Sign in with that account or
             delete it, then link it with your current account.` });
-            return done()
+
+            console.log('done')
+            return done(null, req.user)
           }
 
           req.user.providers.push(provider)
@@ -110,6 +116,7 @@ function handleOauthLogin(profileMapper) {
           })
         })
     }else {
+      console.log('wtf, no user')
       findProviderUser(providerName, profile.id)
         .then(user => {
 
@@ -126,12 +133,15 @@ function handleOauthLogin(profileMapper) {
             })
           }
 
-          //user not found, register user and login
+          /*//user not found, register user and login
           user = new User()
           user.profile = mappedProfile
           user.providers.push(provider)
 
-          user.save(err => done(err, user))
+          user.save(err => done(err, user))*/
+
+          //user not found, show payment page
+          res.redirect('/')
         })
     }
   }
