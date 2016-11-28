@@ -13,6 +13,8 @@ const store = new Vuex.Store(stores)
 
 const router = new VueRouter({
   routes,
+  mode: 'history',
+  base: '/dashboard'
 })
 
 router.beforeEach(function(to, from, next){

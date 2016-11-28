@@ -9,6 +9,7 @@ const InstagramStrategy = require('passport-instagram').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
 const GitHubStrategy = require('passport-github').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+const LinkedinStrategy = require('passport-linkedin')
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
@@ -28,7 +29,6 @@ exports.isAuthenticated = function (req, res, next) {
     return next()
   }
 
-  console.log('when?', req.originalUrl)
   req.session.returnTo = req.originalUrl
   res.redirect('/auth/login')
 }
@@ -93,6 +93,7 @@ function handleOauthLogin(profileMapper) {
     const mappedProfile = profileMapper(profile);
     const provider = { id: profile.id, accessToken, secondaryToken, name: providerName }
     console.log('oauth login handler')
+    console.log('mapped profile', mappedProfile)
 
     if (req.user) {
       console.log('user is already loged in, updating')
@@ -174,6 +175,41 @@ passport.use(new FacebookStrategy({
   profileFields: ['id', 'displayName', 'gender', 'profileUrl', 'photos', 'email'],
   passReqToCallback: true
 }, handleOauthLogin(mapFacebookProfile)))
+
+
+
+/**
+ * Maps Linkedin profile info to User.profile
+ * @param profile
+ * @returns {{id: *, name: *, gender: *, location: '', website: '', picture; *}}
+ */
+function mapLinkedinProfile(profile) {
+  console.log(profile)
+  return {
+    id: profile.id,
+    name: profile.formattedName,
+    gender: '',
+    location: '',
+    website: '',
+    picture: profile.pictureUrl,
+    profile_link: profile.publicProfileUrl
+  }
+}
+
+/**
+ * Instantiate LinkedinStrategy
+ * Using handleOauthLogin and mapLinkinedProfile
+ */
+passport.use(new LinkedinStrategy({
+  consumerKey: config.social.linkedin.consumer_key,
+  consumerSecret: config.social.linkedin.consumer_secret,
+  callbackURL: '/auth/o/linkedin/callback',
+  scope: ['r_basicprofile'],
+  profileFields: ['id', 'formatted-name', 'public-profile-url', 'picture-url'],
+  passReqToCallback: true
+}, handleOauthLogin(mapLinkedinProfile)))
+
+
 
 /**
  * Maps Twitter profile info to User.profile

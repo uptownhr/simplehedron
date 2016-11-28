@@ -25,6 +25,10 @@ module.exports = {
       consumer_key: process.env.TWITTER_CONSUMER_KEY || 'Jw6gdI0TGsuFzGq9ClIoqWuHu',
       consumer_secret: process.env.TWITTER_CONSUMER_SECRET || 'rQnElaPgiUUixe0viJ0dbd1M70RpO2a7P2R07pVEk4MPbxBxK7'
     },
+    linkedin: {
+      consumer_key: process.env.LINKEDIN_CONSUMER_KEY,
+      consumer_secret: process.env.LINKEDIN_CONSUMER_SECRET
+    },
     instagram:{
       client_id: process.env.INSTAGRAM_CLIENT_ID || 'b57a31bedd2f47449456558a53d127e3',
       client_secret: process.env.INSTAGRAM_CLIENT_SECRET || 'ee3b706754584de19b31ca95c670caec'
