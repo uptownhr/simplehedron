@@ -44,9 +44,10 @@ apiRouter.post('/send-invitations', (req, res) => {
 
   company.invitations.filter( inv => inv.status == 'pending' ).forEach( inv => {
     let intro = inv.name ? `Hi ${inv.name},` : 'Hi,'
+    let join = `http://${process.env.VIRTUAL_HOST}/auth/join/${inv.token}`
     let body = `
       ${intro}
-      You have been invited to join ${company.name}'s Simplehedron campaigns. Please follow this link to <a href="http://simple.docker/join/${inv.token}">join</a>.
+      You have been invited to join ${company.name}'s Simplehedron campaigns. Please follow this link to <a href="${join}">join</a>.
       `
     mailUser(inv, `Invitation to join ${company.name}`, body)
     inv.status = 'sent'

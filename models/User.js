@@ -2,6 +2,10 @@ var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var mongoose = require('mongoose');
 
+function random(){
+  return crypto.randomBytes(16).toString('hex')
+}
+
 var providerSchema = new mongoose.Schema({
   id: String,
   name: String,
@@ -11,7 +15,7 @@ var providerSchema = new mongoose.Schema({
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
-  password: String,
+  password: { type: String, default: random },
   role: { type: String, enum: ['admin', 'member'], default: 'member' },
   plan: {
     name: String,

@@ -1,6 +1,6 @@
 const router = require('express').Router(),
   config = require('../config'),
-  User = require('../models/User'),
+  { User, Company } = require('../models'),
   queryString = require('querystring'),
   passport = require('passport'),
   {mailUser} = require('../app/util')
@@ -9,23 +9,6 @@ const router = require('express').Router(),
 
 router.get('/login', function (req, res) {
   res.render('login')
-})
-
-router.get('/login/:token', function (req, res) {
-  User.findOne({'loginToken.token': req.params.token, 'loginToken.expiration': {$gt: Date.now()}}).exec()
-  .then( user => {
-      if (!user) return res.redirect("/auth/login")
-
-      user.loginToken = { token: null, expiration: null }
-
-      if (!user._activeCompany) user._activeCompany = user._companies[0]
-
-      user.save().then( saved => {
-        req.logIn(saved, err => {
-          res.redirect('/dashboard')
-        })
-      })
-    }).catch( err => res.send({err}) )
 })
 
 router.post('/login', function (req, res, next) {
@@ -49,6 +32,68 @@ router.post('/login', function (req, res, next) {
         mailUser(user, "Login Email", `Hi, please click on this link to login. <br/> <br/> <a href="${login}">Login</a>`)
         //res.redirect(`/auth/login/${token}`)
         res.send(`Your login email has been sent to ${user.email}. Please check your email to login.`)
+      })
+    })
+})
+
+router.get('/login/:token', function (req, res) {
+  User.findOne({'loginToken.token': req.params.token, 'loginToken.expiration': {$gt: Date.now()}}).exec()
+    .then( user => {
+      if (!user) return res.redirect("/auth/login")
+
+      user.loginToken = { token: null, expiration: null }
+
+      if (!user._activeCompany) user._activeCompany = user._companies[0]
+
+      user.save().then( saved => {
+        req.logIn(saved, err => {
+          res.redirect('/dashboard')
+        })
+      })
+    }).catch( err => res.send({err}) )
+})
+
+router.get('/join/:token', function (req, res) {
+  const token = req.params.token
+
+  const elemMatch = {
+    $elemMatch: {
+      token, status: 'sent'
+    }
+  }
+
+  Company.findOne({ invitations: elemMatch })
+    .then( company => {
+      if (!company) return res.send('invalid join token')
+
+      let invitation = company.invitations.find( inv => inv.token == token)
+
+      if (invitation.status == 'accepted') return res.send('Invitation has already been accepted. Please login using your email address')
+
+      console.log('saving company')
+      invitation.status = 'accepted'
+      company.save()
+
+      //create user and login
+      let user = new User({
+        email: invitation.email,
+        profile: {
+          name: invitation.name
+        },
+        gettingStarted: false,
+        role: 'member',
+        _companies: [company._id],
+        _activeCompany: company._id
+      })
+      user.email = invitation.email
+      user.profile.name = invitation.name
+      user.gettingStarted = false
+      user.role = 'member'
+
+      user.save().then( user => {
+        req.logIn(user, err => {
+          res.redirect('/dashboard')
+        })
       })
     })
 })
