@@ -1,7 +1,9 @@
 const router = require('express').Router(),
   config = require('../config'),
+  _ = require('lodash'),
   apiRouter = require('express').Router(),
-  { Company } = require('../models')
+  { Company } = require('../models'),
+  { mailUser } = require('../app/util')
 
 apiRouter.post('/create-company', (req, res) => {
   req.assert('company_name', 'Company name must be at least 4 characters long').len(4);
@@ -35,14 +37,33 @@ apiRouter.post('/create-company', (req, res) => {
 })
 
 apiRouter.post('/send-invitations', (req, res) => {
+  const employees = req.body.employees,
+    company = req.user._activeCompany
 
-  const employees = req.body.employees
+  company.invitations = _.uniqBy(company.invitations.concat(employees), 'email')
+
+  company.invitations.filter( inv => inv.status == 'pending' ).forEach( inv => {
+    let intro = inv.name ? `Hi ${inv.name},` : 'Hi,'
+    let body = `
+      ${intro}
+      You have been invited to join ${company.name}'s Simplehedron campaigns. Please follow this link to <a href="http://simple.docker/join/${inv.token}">join</a>.
+      `
+    mailUser(inv, `Invitation to join ${company.name}`, body)
+    inv.status = 'sent'
+    console.log(body)
+  })
+
+  console.log(company.invitations)
+
+
+  company.save().then( company => {
+    res.send(company)
+  })
+
+
 
   Company.findOne( req.user._activeCompany ).then( company => {
-    company.invitations = company.invitations.concat(employees)
-    company.save().then( company => {
-      res.send(company)
-    })
+
   })
 })
 
@@ -54,8 +75,6 @@ apiRouter.post('/complete-getting-started', (req,res) => {
 })
 
 router.use('/api', apiRouter)
-
-
 
 router.get('/testing', (req,res) => {
   var graph = require('fbgraph'),
@@ -77,10 +96,7 @@ router.get('/testing', (req,res) => {
 
 })
 
-
 router.use( (req, res) => {
-  console.log(config)
-
   req.user.populate('_activeCompany _companies', (err, user) => {
     res.render('dashboard/index.jade',{
       user

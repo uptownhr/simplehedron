@@ -3,48 +3,9 @@ const router = require('express').Router(),
   User = require('../models/User'),
   queryString = require('querystring'),
   passport = require('passport'),
-  sg = require('sendgrid')(config.mail.sendgrid)
+  {mailUser} = require('../app/util')
 
-function mailUser(user, subject, body){
-  console.log(user, subject, body)
-  var request = sg.emptyRequest({
-    method: 'POST',
-    path: '/v3/mail/send',
-    body: {
-      personalizations: [
-        {
-          to: [
-            {
-              email: user.email,
-            },
-          ],
-          subject: subject,
-        },
-      ],
-      from: {
-        email: 'login@simplehedron.com',
-      },
-      content: [
-        {
-          type: 'text/html',
-          value: body,
-        },
-      ],
-    },
-  });
 
-  sg.API(request)
-    .then(response => {
-      console.log(response.statusCode);
-      console.log(response.body);
-      console.log(response.headers);
-    })
-    .catch(error => {
-      //error is an instance of SendGridError
-      //The full response is attached to error.response
-      console.log(error.response.statusCode);
-    });
-}
 
 router.get('/login', function (req, res) {
   res.render('login')
@@ -90,33 +51,7 @@ router.post('/login', function (req, res, next) {
         res.send(`Your login email has been sent to ${user.email}. Please check your email to login.`)
       })
     })
-
-  /*passport.authenticate('local', function (err, user, info) {
-    if (err) {
-      return next(err);
-    }
-
-    if (!user) {
-      req.flash('errors', { msg: info.message });
-      return res.redirect('/auth/login');
-    }
-
-    req.logIn(user, function (err) {
-      if (err) {
-        return next(err);
-      }
-
-      req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || '/');
-    });
-  })(req, res, next);*/
 })
-
-/*router.get('/register', function (req, res) {
-  res.render('register', {
-    query: req.query
-  })
-})*/
 
 router.get('/logout', function (req, res) {
   req.logout()
