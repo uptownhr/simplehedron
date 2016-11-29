@@ -98,8 +98,10 @@ function handleOauthLogin(profileMapper) {
       findProviderUser(providerName, profile.id)
         .then(user => {
           if (user) {
-
-            let p = user.providers.find( p => p.name == 'facebook' )
+            req.flash('error', { msg: providerName + ' already linked.' })
+            return done('already used')
+            console.log('found oauth login in db')
+            let p = user.providers.find( p => p.name == providerName )
             _.assign(p, provider )
             return user.save(done)
 

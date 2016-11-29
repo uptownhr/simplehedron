@@ -5,8 +5,6 @@ const router = require('express').Router(),
   passport = require('passport'),
   {mailUser} = require('../app/util')
 
-
-
 router.get('/login', function (req, res) {
   res.render('login')
 })
@@ -171,4 +169,11 @@ router.get('/o/:provider/callback', function (req, res, next) {
   res.redirect(req.session.returnTo || '/dashboard')
 })
 
+router.use(console.log)
+router.use( function(err, req, res, next){
+  console.error('auth controller error::', err)
+
+  if (err == 'already used') return res.redirect('/dashboard?error=' + err)
+  next()
+})
 module.exports = router

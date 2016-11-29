@@ -15,7 +15,7 @@
         <div class="container has-text-centered">
             <div class="step" :class="{'is-active': step == 0}">
                 <h1 class="title">What is your company name?</h1>
-                <form @submit.prevent="handle_next">
+                <form @submit.prevent="handle_create_company">
                     <p class="control has-addons has-addons-centered">
                         <input v-model="company_name" class="input is-large" type="text" placeholder="Company name">
                         <button class="button is-large" type="submit">Next</button>
@@ -58,7 +58,7 @@
                 <button @click="handle_next" class="button is-primary is-inverted is-large" type="submit">Next</button>
             </div>
             <div class="step" :class="{'is-active': step == 2}">
-                <h1 class="title">Invite your co-workers to <span class="capitalize">{{$store.state.currentUser._activeCompany.name}}  </span></h1>
+                <h1 class="title">Invite your co-workers to <span class="capitalize">{{$store.state.currentUser._activeCompany ? $store.state.currentUser._activeCompany.name : 'your company'}}  </span></h1>
                 <form @submit.prevent="handle_send_invitations" class="email-invites">
                     <div class="columns is-centered">
                         <div class="column is-6">
@@ -77,6 +77,8 @@
                         </div>
                     </div>
                     <button class="button is-inverted is-primary is-large" type="submit">Send Invitations</button>
+                    <br/><br/>
+                    <a @click="handle_next" class="is-white">Skip</a>
                 </form>
             </div>
         </div>

@@ -8,9 +8,19 @@ html(lang='en')
     title Simplehedron
   body
     #app
+      .messages
+        article.message.is-danger(v-for="error in $store.state.flash.error")
+          .message-header Error
+          .message-body {{error.msg}}
+
       router-view
     script.
       window.user = !{JSON.stringify(user)}
+      window._store = {
+        user: !{JSON.stringify(user)},
+        flash: !{ JSON.stringify(messages)}
+      }
+      console.log('store', _store)
     script(src="http://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous")
     script(src="//webpack.simple.docker/static/common.js")
     script(src="//webpack.simple.docker/static/dashboard.js")

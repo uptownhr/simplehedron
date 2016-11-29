@@ -31,6 +31,5 @@ const app = new Vue({
   store,
   router,
   mounted: function(){
-
   }
 }).$mount('#app')

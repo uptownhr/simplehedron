@@ -27,13 +27,17 @@ module.exports = {
     },
 
     methods: {
-      handle_next: function(){
+      handle_create_company () {
         this.create_company().then( res => {
           if (res) {
-            this.step++
-            this.errors = []
+            this.handle_next()
           }
         })
+      },
+      handle_next: function(){
+        if (this.step >= 2) return this.$router.push('/')
+        this.step++
+        this.errors = []
       },
       handle_add_worker: function(){
         this.workers.push('')
