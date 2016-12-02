@@ -1,10 +1,19 @@
 $family-primary: "Lato", sans-serif;
+
 $blue: #4290fd;
+$turquoise:    hsl(171, 100%, 41%) !default
+
 $primary: $blue;
+$info: $turquoise;
+
 $body-background: white;
+
 $grey-lightest: #F7F7F7;
 
 @import '../bulma/bulma.sass';
+
+
+
 
 h1, h2, h3, h4 {
   font-family: 'Merriweather';
